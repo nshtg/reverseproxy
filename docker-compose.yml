@@ -1,0 +1,23 @@
+version: '2'
+
+networks:
+  default:
+    external:
+      name: reverseproxy
+
+services:
+  reverse:
+    image: xataz/reverse-nginx
+    container_name: reverse
+    ports:
+      - "80:8080"
+      - "443:8443"
+    environment:
+      - UID=1000
+      - GID=1000
+      - EMAIL=info@example.com
+    volumes:
+      - ./ssl:/nginx/ssl
+      - ./custom_sites:/nginx/custom_sites
+      - /var/run/docker.sock:/var/run/docker.sock
+
